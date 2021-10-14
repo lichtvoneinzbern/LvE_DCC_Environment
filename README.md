@@ -1,0 +1,2 @@
+# MayaEnvironment
+参加しているプロジェクトで使用するMaya環境周りのスクリプト群
