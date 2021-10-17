@@ -26,23 +26,41 @@ class OpenToolPath(object):
 
     @classmethod
     def get_tool_path(cls):
+        """
+        get tool folder path
+        """
+
         p = os.path.dirname(__file__).replace("\\", "/").split("/")[:-4]
-        p = "\\".join(p)
+        if cls.pf_type == 0:
+            p = "\\".join(p)
+        elif cls.pf_type == 1:
+            p = "/".join(p)
         return p
 
     @classmethod
-    def execute(cls):
-        path = cls.get_tool_path()
-        pf_type = tpl.General.get_platform_type()
-        logger.info("【Platform】: {}".format(pf_type))
-        logger.info("【Path】: {}".format(path))
+    def open_path(cls, path):
+        """
+        open tool folder
+        """
 
-        if pf_type == 0:
+        if cls.pf_type == 0:
             subprocess.Popen(["explorer", path], shell=True)
-        elif pf_type == 1:
+        elif cls.pf_type == 1:
             subprocess.call(["open", path])
         else:
             logger.warning("not support")
+
+    @classmethod
+    def execute(cls):
+        cls.pf_type = tpl.General.get_platform_type()
+        path = cls.get_tool_path()
+
+        logger.info("【Platform ID】: {}".format(cls.pf_type))
+        logger.info("【Path】: {}".format(path))
+
+        cls.open_path(path)
+
+        logger.info("【Tool Path Open】: executed")
 
 
 def main():
