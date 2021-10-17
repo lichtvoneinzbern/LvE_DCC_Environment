@@ -6,11 +6,15 @@ from __future__ import unicode_literals as _unicode_literals
 from __future__ import division as _division
 from __future__ import print_function as _print_function
 
+import os
+
 import pymel.core as pm
+import maya.cmds as mc
 
 from logging import getLogger
 logger_name = "__Library__"
 logger = getLogger(logger_name)
+
 
 class General(object):
     @classmethod
@@ -32,8 +36,30 @@ class General(object):
             logger.info("【Platform Type】: Mac")
             return 1
         elif pf == 'Linux':
-            logger.info("【Platform Type】: Linux" )
+            logger.info("【Platform Type】: Linux")
             return 2
+
+    @classmethod
+    def open_file_dialog(cls):
+        """ファイル名を含むパスを返却
+
+        Returns:
+            string: 選択したパス
+        """
+
+        path = pm.fileDialog()
+        return path
+
+    @classmethod
+    def open_folder_dialog(cls):
+        """ディレクトリのみのパスを返却
+
+        Returns:
+            string: 選択したパス
+        """
+
+        path = pm.fileDialog2(fileMode=3)
+        return path
 
 
 class Node(object):
@@ -57,7 +83,7 @@ class Node(object):
         Args:
             *node_names (string): 選択したいノードの名前
         """
-        for node_name in node_names:  pm.select(node_name, replace=True)
+        for node_name in node_names: pm.select(node_name, replace=True)
     # l = ["lightLinker1", "shaderGlow1"]
     # select_node_from_name(l)
 
@@ -96,6 +122,60 @@ class Plugin(object):
         else:
             logger.info('There are not Unknown Plugin.')
     # unknown_plugin()
+
+
+class SaveAndLoad(object):
+
+    @classmethod
+    def save_scene_as(cls, file_name="fn", folder_path="", file_type=0):
+        u"""
+        シーンの保存
+
+        Args:
+            file_name (str, optional): 拡張子なしのファイル名. Defaults to "fn".
+            folder_path (str, optional): 保存対象になるパス 存在することが前提. Defaults to "".
+            file_type (int, optional): 拡張子の設定 0=ma 1=mb. Defaults to 0.
+        """
+        mc.file(rename="{0}{1}".format(folder_path, file_name))
+        if file_type == 0:
+            mc.file(save=True, type="mayaAscii")
+        else:
+            mc.file(save=True, type="mayaBinary")
+
+
+class Project(object):
+    @classmethod
+    def set_project(cls, path):
+        u"""プロジェクトを作成
+
+        Args:
+            path (string)): プロジェクトを設定したいパスを指定
+
+        Returns:
+            bool: 処理結果　渡されたパスが存在しなければFalse
+        """
+        SEPARATOR = ["\\", "/"]
+
+        # win環境ならセパレータの置き換え
+        platform_type = General().get_platform_type()
+        if platform_type == 0:
+            path.replace("/", "\\")
+
+        # パスが存在しなければ設定しない
+        if os.path.exists(path) is False:
+            logger.error("project path not exist")
+            return False
+
+        # パスが存在し、ワークスペースがなければ作成
+        if os.path.exists(path + "{}workspace.mel".format(SEPARATOR[platform_type])) is False:
+            try:
+                print(path + "{}workspace.mel".format(SEPARATOR[platform_type]))
+                pm.workspace(path, saveWorkspace=True)
+            except(RuntimeError):
+                logger.error("【Unknown Work Space】: {0}".format(path))
+
+            return True
+    # set_project(scene_path)
 
 
 class Editor(object):
