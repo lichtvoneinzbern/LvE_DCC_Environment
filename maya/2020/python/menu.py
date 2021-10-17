@@ -17,7 +17,6 @@ import maya.mel as mel
 import os
 
 
-
 class CustomMayaMenu(object):
     menu_name = "CustomTools"
 
@@ -47,15 +46,21 @@ class CustomMayaMenu(object):
                     image="open_scene_path.png",
                     command='from open_scene_path import open_scene_path; reload(open_scene_path); open_scene_path.main()')
 
+        pm.menuItem(label=u'プロジェクトフォルダを作成',
+                    image="create_project.png",
+                    command='from create_project import create_project; reload(create_project); create_project.main()')
+
         pm.menuItem(divider=True, label=u'【造形者用】')
 
         pm.menuItem(label=u'FBXをエクスポート',
                     image="export_fbx.png",
                     command='from export_fbx import export_fbx; reload(export_fbx); export_fbx.main()')
 
+        """
         pm.menuItem(label=u'キューブを作成',
                     image="create_cube.png",
                     command='from create_cube import create_cube; reload(create_cube); create_cube.create()')
+        """
 
     @classmethod
     def set_developer_tools(cls):
