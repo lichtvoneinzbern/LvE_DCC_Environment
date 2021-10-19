@@ -43,9 +43,9 @@ class CreateProject(MayaQWidgetBaseMixin, QtWidgets.QMainWindow):
 
         # checking is project path correct
         self.PROJECT_ROOT_PATH = self.CURRENT_FILE.replace("\\", "/").split("/")[:-7]
-        if not self.PROJECT_ROOT_PATH[-1] == self.PROJECT_CODE:
-            logger.error("【Get Miss Match Project Code】: {}".format(self.PROJECT_ROOT_PATH))
-            return
+        # if not self.PROJECT_ROOT_PATH[-1] == self.PROJECT_CODE:
+        #     logger.error("【Get Miss Match Project Code】: {}".format(self.PROJECT_ROOT_PATH))
+        #     return
 
         self.PLATFORM_TYPE = tpl.General().get_platform_type()
         if self.PLATFORM_TYPE == 0:
@@ -162,19 +162,20 @@ class CreateProject(MayaQWidgetBaseMixin, QtWidgets.QMainWindow):
                                 self.ASSET_CATEGORY[int(name[0])],
                                 name)
         if not os.path.exists(path):
+            path = path.replace("\\", "/")
             os.mkdir(path)
 
         for sub_folder in self.SUB_FOLDERS:
-            if self.PLATFORM_TYPE == 0:
-                path = path.replace("/", "\\")
 
             if not os.path.exists("{0}{1}".format(path, sub_folder)):
                 os.mkdir("{0}{1}".format(path, sub_folder))
 
             # save scene as asset name
-            if sub_folder == "{}Scene".format(separator[self.PLATFORM_TYPE]) \
+            if sub_folder == "/Scene" \
                and self.widget.cb_save_scene_as_asset_name.isChecked() is True:
-                tpl.SaveAndLoad().save_scene_as("{0}{1}".format(separator[self.PLATFORM_TYPE], name),
+                print("/{}".format(name))
+                print("{0}{1}".format(path, sub_folder))
+                tpl.SaveAndLoad().save_scene_as("/{}".format(name),
                                                 "{0}{1}".format(path, sub_folder),
                                                 0)
 
@@ -194,6 +195,7 @@ class CreateProject(MayaQWidgetBaseMixin, QtWidgets.QMainWindow):
             platform_type (int): is win or mac or linux
         """
         if platform_type == 0:
+            path = path.replace("/", "\\")
             subprocess.Popen(["explorer", path], shell=True)
         elif platform_type == 1:
             subprocess.call(["open", path])
