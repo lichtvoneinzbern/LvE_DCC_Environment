@@ -5,6 +5,8 @@ from __future__ import unicode_literals as _unicode_literals
 from __future__ import division as _division
 from __future__ import print_function as _print_function
 
+from syntax_highlighter import syntax_highlighter
+
 from logging import getLogger
 logger_name = "userSetup"
 logger = getLogger(logger_name)
@@ -65,10 +67,8 @@ class UserSetup(object):
         cls.set_preferences()
         cls.create_menu()
 
-
 # GUIが構築されてから実行
 if __name__ == "__main__":
     import maya.utils as utl
 
-    user_setup = UserSetup()
-    utl.executeDeferred(user_setup.main)
+    utl.executeDeferred(UserSetup.main)

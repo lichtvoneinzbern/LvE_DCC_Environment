@@ -80,6 +80,10 @@ class CustomMayaMenu(object):
                     image="",
                     command='from open_tool_path import open_tool_path; reload(open_tool_path); open_tool_path.main()')
 
+        pm.menuItem(label=u'ログをハイライト',
+            image="",
+            command='from syntax_highlighter import syntax_highlighter; reload(syntax_highlighter); syntax_highlighter.execute()')
+
     @classmethod
     def get_tool_path_name(cls):
         """ツール実行環境のフォルダ名を取得
