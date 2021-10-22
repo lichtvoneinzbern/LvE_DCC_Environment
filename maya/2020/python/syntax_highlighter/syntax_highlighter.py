@@ -14,14 +14,13 @@ logger = getLogger(logger_name)
 
 
 class Rule():
-    def __init__(self, fg_color, pattern='', bg_color=None, bold=False, italic=False, font='Courier New'):
+    def __init__(self, fg_color, pattern='', bg_color=None, bold=False, italic=False, font='Courier New', size=16):
         self.pattern = QRegExp(pattern)
         self.form = QTextCharFormat()
         self.form.setForeground(QColor(*fg_color))
         if bg_color:
             self.form.setBackground(QColor(*bg_color))
-        font = QFont(font)
-        # font = QFont(font, 10) size
+        font = QFont(font, size)
         font.setBold(bold)
         font.setItalic(italic)
         self.form.setFont(font)
