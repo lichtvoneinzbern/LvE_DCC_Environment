@@ -64,6 +64,7 @@ class CreateProject(MayaQWidgetBaseMixin, QtWidgets.QMainWindow):
 
         # main window settings
         self.widget = QUiLoader().load(self.UI_FILE)
+        self.setFixedSize(500, 300)
         self.setCentralWidget(self.widget)
         self.setWindowTitle(self.WINDOW_TITLE)
 
@@ -144,8 +145,9 @@ class CreateProject(MayaQWidgetBaseMixin, QtWidgets.QMainWindow):
             logger.error("【Category Error】: Category type miss match")
 
     def create_project(self):
-
-        separator = ["\\", "/"]
+        """
+        execure create project
+        """
 
         name = self.widget.le_asset_name.text()
 
