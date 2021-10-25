@@ -33,7 +33,7 @@ class QtWindow(MayaQWidgetBaseMixin, QtWidgets.QMainWindow):
         self.PROJECT_CODE = "project_env"
         self.CURRENT_FILE = os.path.normpath(__file__)
         self.PATH, self.PY_EXTENTION = os.path.splitext(self.CURRENT_FILE)
-        self.UI_FILE = "{0}{1}{2}".format("ui_", self.PATH, ".ui")
+        self.UI_FILE = "{0}{1}".format(self.PATH, "_ui.ui")
         self.WINDOW_TITLE = "Title sample"
 
         # self.sample_create_ui()
