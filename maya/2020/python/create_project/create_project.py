@@ -145,6 +145,9 @@ class CreateProject(MayaQWidgetBaseMixin, QtWidgets.QMainWindow):
             logger.error("【Category Error】: Category type miss match")
 
     def create_project(self):
+        """
+        execure create project
+        """
 
         name = self.widget.le_asset_name.text()
 
