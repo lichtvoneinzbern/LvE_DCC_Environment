@@ -146,8 +146,6 @@ class CreateProject(MayaQWidgetBaseMixin, QtWidgets.QMainWindow):
 
     def create_project(self):
 
-        separator = ["\\", "/"]
-
         name = self.widget.le_asset_name.text()
 
         """
