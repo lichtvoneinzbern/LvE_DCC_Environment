@@ -82,7 +82,7 @@ class CustomMayaMenu(object):
 
         pm.menuItem(label=u'ログをハイライト',
             image="",
-            command='from syntax_highlighter import syntax_highlighter; reload(syntax_highlighter); syntax_highlighter.execute()')
+            command='from syntax_highlighter import command as syntax_highlighter; reload(syntax_highlighter); syntax_highlighter.execute()')
 
     @classmethod
     def get_tool_path_name(cls):
