@@ -64,6 +64,7 @@ class CreateProject(MayaQWidgetBaseMixin, QtWidgets.QMainWindow):
 
         # main window settings
         self.widget = QUiLoader().load(self.UI_FILE)
+        self.setFixedSize(500, 300)
         self.setCentralWidget(self.widget)
         self.setWindowTitle(self.WINDOW_TITLE)
 
