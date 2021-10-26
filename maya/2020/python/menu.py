@@ -56,11 +56,6 @@ class CustomMayaMenu(object):
                     image="export_model_fbx.png",
                     command='from export_fbx import export_fbx; reload(export_fbx); export_fbx.main(0)')
 
-        """
-        pm.menuItem(label=u'キューブを作成',
-                    image="create_cube.png",
-                    command='from create_cube import create_cube; reload(create_cube); create_cube.create()')
-        """
         pm.menuItem(divider=True, label=u'【アニメーター用】')
 
         pm.menuItem(label=u'FBXをエクスポート',
