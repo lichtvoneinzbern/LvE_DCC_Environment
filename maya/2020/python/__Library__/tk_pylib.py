@@ -41,7 +41,7 @@ class General(object):
 
     @classmethod
     def open_file_dialog(cls):
-        """ファイル名を含むパスを返却
+        u"""ファイル名を含むパスを返却
 
         Returns:
             string: 選択したパス
@@ -52,7 +52,7 @@ class General(object):
 
     @classmethod
     def open_folder_dialog(cls):
-        """ディレクトリのみのパスを返却
+        u"""ディレクトリのみのパスを返却
 
         Returns:
             string: 選択したパス
@@ -77,26 +77,54 @@ class Node(object):
 
     @classmethod
     def select_node_from_name(cls, *node_names):
-        """
+        u"""
         文字列からノードを選択
 
         Args:
             *node_names (string): 選択したいノードの名前
         """
+
         for node_name in node_names: pm.select(node_name, replace=True)
     # l = ["lightLinker1", "shaderGlow1"]
     # select_node_from_name(l)
+
+    @classmethod
+    def check_selected_node_is_single(cls):
+        u"""選択されているノードが一つかどうかを判定
+
+        Returns:
+            bool: 1つならTrue
+        """
+
+        sel = pm.ls(sl=True)
+        logger.info("【Selected Node　Num】: {}".format(len(sel)))
+
+        if len(sel) == 1:
+            return True
+        else:
+            return False
+
+    @classmethod
+    def get_selected_node_num(cls):
+        """選択されたノードの数を取得
+
+        Returns:
+            int: 選択されたノード数
+        """
+        sel = pm.ls(sl=True)
+        return len(sel)
 
 
 class Environment(object):
     @classmethod
     def get_script_folder(cls):
-        """
+        u"""
         Mayaの環境変数からスクリプトパスを返却する
 
         Returns:
             list(string): mayaのスクリプトパス
         """
+
         import os
         path = os.getenv('MAYA_SCRIPT_PATH').split(';')
         return path
@@ -107,10 +135,11 @@ class Environment(object):
 class Plugin(object):
     @classmethod
     def delete_unknown_plugin(cls):
-        '''
+        u'''
         シーン内の不明なプラグインを削除する
         https://qiita.com/UnPySide/items/b91fe203ccf587e8cf99
         '''
+
         # シーン内の不明なプラグインをリストします。
         unknown_plugins = pm.unknownPlugin(q=True, l=True)
         # print(unknown_plugins)
@@ -136,6 +165,7 @@ class SaveAndLoad(object):
             folder_path (str, optional): 保存対象になるパス 存在することが前提. Defaults to "".
             file_type (int, optional): 拡張子の設定 0=ma 1=mb. Defaults to 0.
         """
+
         mc.file(rename="{0}{1}".format(folder_path, file_name))
         if file_type == 0:
             mc.file(save=True, type="mayaAscii")
@@ -154,6 +184,7 @@ class Project(object):
         Returns:
             bool: 処理結果　渡されたパスが存在しなければFalse
         """
+
         SEPARATOR = ["\\", "/"]
 
         # win環境ならセパレータの置き換え
@@ -181,7 +212,7 @@ class Project(object):
 class Editor(object):
     @classmethod
     def create_confirm_dialog(cls, title="title", message="message", confirm="Yes", decline="No"):
-        """
+        u"""
         ダイアログを作成
 
         Args:
@@ -205,7 +236,7 @@ class Editor(object):
 
     @classmethod
     def create_progress_window(cls, func, title, width, value):
-        """
+        u"""
         プログレスウィンドウを作成
         Args:
             title(string):メニューのタイトル

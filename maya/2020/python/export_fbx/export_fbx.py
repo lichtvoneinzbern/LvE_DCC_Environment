@@ -5,229 +5,237 @@ from __future__ import unicode_literals as _unicode_literals
 from __future__ import division as _division
 from __future__ import print_function as _print_function
 
-import os
-import stat
+from __Library__ import tk_pylib as tpl
 
 import pymel.core as pm
 import maya.mel as mel
-from logging import getLogger
 
-# logger template
-# logger_title = ""
-# logger = getLogger(logger_title)
+import os
+import subprocess
+
+from logging import getLogger
+logger_name = "Export FBX"
+logger = getLogger(logger_name)
 
 
 class ExportFbx(object):
+    def __init__(self):
+        self.CATEGORY_CHARACTER = "Character"
+        self.CATEGORY_BG        = "Bg"
+        self.CATEGORY_PROP      = "Prop"
+        self.FOLDER_FBX         = "/Fbx"
 
-    @classmethod
-    def remove_extention(cls, file_name):
-        u"""付与されている拡張子を削除する
+        self.scene_path = ""
+        self.fbx_folder_path = ""
+        self.scene_name = ""
+        self.export_path = ""
+
+    def show_error_message(self, error_id=0):
+        u"""エラーが起こったことを表示するダイアログを作成
 
         Args:
-            file_name (string): 拡張子のついたファイル名
+            error_id (int, optional): エラーIDを取得してメッセージを分岐. Defaults to 0.
+        """
+        mes = [u"原因不明のエラーが発生しました。\nテクニカルアーティストにお知らせください。",
+               u"シーンが想定されたパスに存在しません。\n処理を中断します。",
+               u"FBXのプラグインが存在しませんでした。\n処理を中断します。",
+               u"選択されたノードが一つではありません。\n処理を中断します。"]
+
+        pm.confirmDialog(title='Error',
+                         message=mes[error_id],
+                         button='OK')
+        return
+
+    def check_fbx_plugin(self):
+        u"""FBXのプラグインが存在するか確認
 
         Returns:
-            string: 拡張子を取り除いたファイル名　拡張子が見当たらなければそのまま返却
+            bool: 判定結果
         """
-
-        logger = getLogger(cls.remove_extention.__name__)
-
-        without_extention = file_name.split(".")[:-1]
-
-        # 拡張子が見当たらなかった場合ファイル名を変更せず文字列で返却
-        if len(without_extention) == 0:
-            logger.warning("has no extention")
-            return str(file_name)
-        return str(without_extention[0])
-    # remove_extention("hoge.ma")
-
-    @classmethod
-    def check_fbx_plugin_exist(cls):
-        u"""
-        fbxのプラグインが存在するかをチェック
-
-        Returns:
-            bool: チェック結果　プラグインが存在しなければFalse
-        """
-
-        logger = getLogger(cls.check_fbx_plugin_exist.__name__)
 
         fbxPlugin = pm.pluginInfo('fbxmaya', query=True, loaded=True)
-        if fbxPlugin is not True:
+
+        if fbxPlugin != True:
             try:
                 pm.loadPlugin('fbxmaya.mll')
-            except BaseException:
-                logger.error('FBX Plugin not found')
+                logger.info('【Plugin Load】: fbxmaya.mll is not loaded. but load success now')
+                return True
+            except:
+                logger.error('【Plugin Error】: FBX Plugin not found')
                 return False
-        logger.info("FBX plugin found")
-        return True
-    # check_fbx_plugin_exist()
-
-    @classmethod
-    def get_scene_path(cls):
-        u"""
-        現在開いているシーンのパスを取得
-
-        Returns:
-            string: パスを文字列で返却(シーンが開かれていない場合は空白が帰る)
-        """
-
-        scene_path = pm.sceneName()
-        return scene_path
-    # get_scene_path()
-
-    @classmethod
-    def get_project_path(cls):
-        u"""プロジェクトのパスを取得
-
-        Returns:
-            string: プロジェクトパスを文字列で返却
-        """
-
-        project_path = pm.workspace.path
-        return project_path
-    # get_project_path()
-
-    @classmethod
-    def set_project(cls, path):
-        """プロジェクトを作成
-
-        Args:
-            path (string)): プロジェクトを設定したいパスを指定
-
-        Returns:
-            bool: 処理結果　渡されたパスが存在しなければFalse
-        """
-
-        logger = getLogger(cls.set_project.__name__)
-
-        # パスが存在しなければ設定しない
-        if os.path.exists(path) is False:
-            logger.error("project path not exist")
-            return False
-
-        # パスが存在し、ワークスペースがなければ作成
-        if os.path.exists(path + "/workspace.mel") is False:
-            pm.workspace(path, saveWorkspace=True)
+        else:
+            logger.info('【Plugin Exist】: fbxmaya.mll')
             return True
-    # set_project(scene_path)
 
-    @classmethod
-    def create_fbx_folder(cls):
-        u"""
-        fbxフォルダを作成
-
-        Returns:
-            string: 作成したパスを返却　エラーが発生した場合”error”が返却される
+    def get_scene_name(self):
+        u"""シーン名を取得
         """
 
-        logger = getLogger(cls.create_fbx_folder.__name__)
-
-        # 作成されるフォルダ名
-        fbx_folder_name = "Fbx"
-
-        # fbxを格納するフォルダのディレクトリを作成
-        scene_path = pm.sceneName()  # '/Users/von/Documents/ccc/trunk/Work/3d/Prop/2999Test/Scene/2999Test.ma'
-
-        # シーンが設定されておらずuntitledの状態だとos errorになるためtry catchする
-        try:
-            # シーンパスから作成するfbxのフォルダパスを作成
-            fbx_folder_path = scene_path.replace("\\", "/").split("/")[:-2]
-            fbx_folder_path = "/".join(fbx_folder_path)
-            fbx_folder_path = os.path.join(fbx_folder_path, fbx_folder_name).replace("\\", "/")
-            # logger.info("{0}{1}".format("fbx_folder_path == ", fbx_folder_path))
-
-            # パスが存在しなければ作成
-            if not os.path.isdir(fbx_folder_path):
-                os.mkdir(fbx_folder_path)
-                logger.info("create fbx folder")
-                return fbx_folder_path
-            # あったら何もしない
-            logger.warning("aleady exist fbx folder")
-            return fbx_folder_path
-        except(OSError):
-            logger.error("os path error")
-            return "error"
-    # create_fbx_folder()
-
-    @classmethod
-    def export_fbx_selected_node(cls):
-        u"""
-        選択されたノードをfbx形式でエクスポート
-
-        Returns:
-            bool: 処理結果　最後まで走ればTrue
-        """
-
-        logger = getLogger(cls.export_fbx_selected_node.__name__)
-
-        # init
-        suffix = ""
-        fbx_extention = ".fbx"
-        fbx_folder_name = "Fbx"
-
-        # fbxファイル名を作成
-        scene_name = str(pm.sceneName().replace("\\", "/").split("/")[-1])
-        scene_name = cls.remove_extention(scene_name)
-        fbx_file_name = "{0}{1}{2}".format(scene_name, suffix, fbx_extention)
-        logger.info("{0}{1}".format("export fbx name == ", fbx_file_name))
-
-        # シーンパスから作成するfbxのフォルダパスを作成
-        scene_path = pm.sceneName()
-        fbx_folder_path = scene_path.replace("\\", "/").split("/")[:-2]
-        fbx_folder_path = "/".join(fbx_folder_path)
-        fbx_folder_path = os.path.join(fbx_folder_path, fbx_folder_name).replace("\\", "/")
-        logger.info("{0}{1}".format("fbx folder path == ", fbx_folder_path))
-
-        # FBX をエクスポート
-        mel.eval('FBXExport -f ' + '"' + fbx_folder_path + "/" + fbx_file_name + '" -s')
-        logger.info("Selected objects exported to " + fbx_folder_path)
-        return True
-    # export_fbx_selected_node()
-
-    @classmethod
-    def create_error_dialog(cls, title="title", message="", confirm="OK"):
-        """
-        エラー用のダイアログを作成
-
-        Args:
-            title (string): ダイアログのタイトルに使用されるメッセージ
-            message (string)): ダイアログ内に表示するメッセージ
-            confirm (string): ツール実行に対して確認をした際にクリックするボタンのテキスト
-
-        Returns:
-            unicode(string): ユーザーが同意したかどうかの結果を返す。返却されるのはボタンに割り振ったテキスト
-        """
-
-        result = pm.confirmDialog(title=title,
-                                  message=message,
-                                  button=[confirm],
-                                  defaultButton=confirm)
-        return result
-    # create_error_dialog("title", "message", "OK")
-
-    @classmethod
-    def execute(cls):
-        logger = getLogger(cls.execute.__name__)
-        logger.info("==================start log=================")
-
-        if cls.check_fbx_plugin_exist() == 0:
+        self.scene_path = pm.sceneName()
+        if self.scene_path == "":
+            self.show_error_message(1)
             return
 
-        result = cls.create_fbx_folder()
-        if result == "error":
+        self.scene_path = self.scene_path.replace("\\", "/")
+        logger.info("【Scene Parh】: {}".format(self.scene_path))
+
+        scene_name_w2_ext = self.scene_path[self.scene_path.rfind('/')+1:]
+        self.scene_name = scene_name_w2_ext[0:scene_name_w2_ext.rfind(".")]
+
+        logger.info("【Scene Name】: {}".format(self.scene_name))
+        return
+
+    def get_fbx_folder_path(self):
+        u"""Fbxフォルダのパスを取得
+        """
+        base_path = self.scene_path.replace("\\", "/").split("/")[:-2]
+        base_path = "/".join(base_path)
+        self.fbx_folder_path = "{0}{1}".format(base_path, "/Fbx")
+
+        logger.info("【Fbx Folder Path】: {}".format(self.fbx_folder_path))
+        return
+
+    def check_fbx_folder_path_exist(self):
+        u"""Fbxフォルダのパスが存在するかチェック
+
+        Returns:
+            bool: 判定結果
+        """
+
+        if os.path.exists(self.fbx_folder_path):
+            logger.info("【Fbx Folder】: Exist")
+            return True
+        logger.warning("【Fbx Folder】: Not Exist")
+        return False
+
+    def create_fbx_folder_path(self):
+        u"""Fbxフォルダを作成
+        """
+        os.mkdir(self.fbx_folder_path)
+
+        logger.info("【Created Fbx Directory】: {}".format(self.fbx_folder_path))
+        return
+
+    def get_export_path(self):
+        u"""FBXの出力パスを作成
+        """
+        self.export_path = "{0}/{1}{2}".format(self.fbx_folder_path, self.scene_name, ".fbx")
+
+        logger.info("【Export Path】: {}".format(self.export_path))
+        return
+
+    def export_model_fbx(self):
+        u"""FBXモデルを出力
+        """
+
+        mel.eval('FBXExportUseSceneName -v true;')
+        mel.eval('FBXExportTriangulate -v true;')
+        mel.eval('FBXExportAnimationOnly -v false;')
+        # logger.info("【FBXExportTriangulate】: {}".format(mel.eval('FBXExportTriangulate -q;')))
+        mel.eval('FBXExportSmoothMesh -v true;')
+        mel.eval('FBXExportSmoothingGroups -v true;')
+        mel.eval('FBXExportInputConnections -v true;')
+        mel.eval('FBXExportIncludeChildren -v true;')
+        mel.eval('FBXExportFileVersion -v FBX202000;')
+        pm.FBXExport(['-f',
+                      '{}'.format(self.export_path),
+                      '-s'])
+        return
+
+    def export_animation_fbx(self):
+        u"""FBXアニメーションを出力
+        """
+
+        mel.eval('FBXExportUseSceneName -v true;')
+        mel.eval('FBXExportAnimationOnly -v true;')
+        mel.eval('FBXExportConstraints -v true;')
+        mel.eval('FBXExportInputConnections -v true;')
+        mel.eval('FBXExportIncludeChildren -v true;')
+        mel.eval('FBXExportFileVersion -v FBX202000;')
+        pm.FBXExport(['-f',
+                      '{}'.format(self.export_path),
+                      '-s'])
+        return
+
+    def bake_animation(self):
+        """FBXアニメーション書き出しのためにアニメーションをベイク処理
+        """
+
+        # ノード名を取得
+        node, type = pm.ls(selection=True, showType=True)
+
+        # タイムスライダの時間を取得
+        start = pm.Env().getMinTime()
+        end = pm.Env().getMaxTime()
+
+        # アニメーションをベイク
+        pm.bakeResults(node, time=(start, end), simulation=True, hierarchy="below", shape=False)
+
+
+    def open_fbx_folder(self):
+        u"""Fbx フォルダのパスを開く
+        """
+
+        pl_type = tpl.General.get_platform_type()
+        if pl_type == 0:
+            self.fbx_folder_path = self.fbx_folder_path.replace("/", "\\")
+            subprocess.Popen(["explorer", self.fbx_folder_path], shell=True)
+        elif pl_type == 1:
+            subprocess.call(["open", self.fbx_folder_path])
+        else:
+            logger.error("【Unexpected Platform Type】{}".format(pl_type))
             return
 
-        result = cls.export_fbx_selected_node()
+        logger.info("【Open FBX Folder】: {}".format(self.fbx_folder_path))
+        return
+
+    def execute(self, id):
+
+        # 選択されたノードは一つか
+        if tpl.Node.check_selected_node_is_single() is False:
+            self.show_error_message(3)
+            return
+
+        # FBXのプラグインが存在するか
+        result = self.check_fbx_plugin()
         if result is False:
-            cls.create_error_dialog("エラー", "書き出しに失敗しました。")
-        cls.create_error_dialog("export_fbx", "書き出しに成功しました。")
+            self.show_error_message(2)
+            return
 
-    """
-    if __name__ == "__main__":
-        main()
-    """
+        # 使用するパスやファイル名の取得
+        self.get_scene_name()
+        # シーンが想定された場所に存在しなければ終了
+        # ToDo: 例外処理を厳密に定義する必要がある?
+        if self.scene_path == "":
+            logger.error("【Missing Pass】: {}".format(self.scene_path))
+            return
+        elif self.scene_path.replace("\\", "/").split("/") < 4:
+            logger.error("【Missing Pass】: {}".format(self.scene_path))
+            self.show_error_message(1)
+            return
+
+        self.get_fbx_folder_path()
+        self.get_export_path()
+
+        # Fbxフォルダのパスが作成されており、パスが存在しなかった場合Fbxフォルダを作成
+        if not self.fbx_folder_path == "" and self.check_fbx_folder_path_exist() == False:
+            self.create_fbx_folder_path()
+
+        # 渡されたIDごとに処理を分岐
+        logger.info("【ID】: {}".format(id))
+        if id == 0: # モデル
+            self.export_model_fbx()
+            self.open_fbx_folder()
+        elif id == 1: # アニメーション
+            self.bake_animation()
+            self.export_animation_fbx()
+            self.open_fbx_folder()
+        else:
+            self.show_error_message(1)
+
+        logger.info("【End Process】: Executed")
 
 
-def main():
-    ExportFbx.execute()
+def main(id):
+    ins_export_model_fbx = ExportFbx()
+    ins_export_model_fbx.execute(id)
