@@ -5,46 +5,42 @@ function create_color_document(){
     */
 
     var idmake = stringIDToTypeID( "make" );
-    var desc299 = new ActionDescriptor();
+    var desc5 = new ActionDescriptor();
     var idnew = stringIDToTypeID( "new" );
-    var desc300 = new ActionDescriptor();
+    var desc6 = new ActionDescriptor();
     var idartboard = stringIDToTypeID( "artboard" );
 
-    desc300.putBoolean( idartboard, false );
+    desc6.putBoolean( idartboard, false );
     var idautoPromoteBackgroundLayer = stringIDToTypeID( "autoPromoteBackgroundLayer" );
-    desc300.putBoolean( idautoPromoteBackgroundLayer, false );
+    desc6.putBoolean( idautoPromoteBackgroundLayer, false );
     var idmode = stringIDToTypeID( "mode" );
     var idRGBColorMode = stringIDToTypeID( "RGBColorMode" );
-    desc300.putClass( idmode, idRGBColorMode );
+    desc6.putClass( idmode, idRGBColorMode );
     var idwidth = stringIDToTypeID( "width" );
     var iddistanceUnit = stringIDToTypeID( "distanceUnit" );
-    desc300.putUnitDouble( idwidth, iddistanceUnit, 491.520000 );
+    desc6.putUnitDouble( idwidth, iddistanceUnit, 2048.000000 );
     var idheight = stringIDToTypeID( "height" );
     var iddistanceUnit = stringIDToTypeID( "distanceUnit" );
-    desc300.putUnitDouble( idheight, iddistanceUnit, 491.520000 );
+    desc6.putUnitDouble( idheight, iddistanceUnit, 2048.000000 );
     var idresolution = stringIDToTypeID( "resolution" );
     var iddensityUnit = stringIDToTypeID( "densityUnit" );
-    desc300.putUnitDouble( idresolution, iddensityUnit, 300.000000 );
+    desc6.putUnitDouble( idresolution, iddensityUnit, 72.000000 );
     var idpixelScaleFactor = stringIDToTypeID( "pixelScaleFactor" );
-    desc300.putDouble( idpixelScaleFactor, 1.000000 );
-    var idfill = stringIDToTypeID( "fill" );
+    desc6.putDouble( idpixelScaleFactor, 1.000000 );
     var idfill = stringIDToTypeID( "fill" );
     var idtransparency = stringIDToTypeID( "transparency" );
-    desc300.putEnumerated( idfill, idfill, idtransparency );
+    desc6.putEnumerated( idfill, idfill, idtransparency );
     var iddepth = stringIDToTypeID( "depth" );
-    desc300.putInteger( iddepth, 8 );
+    desc6.putInteger( iddepth, 8 );
     var idprofile = stringIDToTypeID( "profile" );
-    desc300.putString( idprofile, """sRGB IEC61966-2.1""" );
+    desc6.putString( idprofile, """sRGB IEC61966-2.1""" );
     var idguides = stringIDToTypeID( "guides" );
-    var list39 = new ActionList();
-    desc300.putList( idguides, list39 );
-
+    var list2 = new ActionList();
+    desc6.putList( idguides, list2 );
     var iddocument = stringIDToTypeID( "document" );
-    desc299.putObject( idnew, iddocument, desc300 );
-    var iddocumentID = stringIDToTypeID( "documentID" );
-    desc299.putInteger( iddocumentID, 324 );
+    desc5.putObject( idnew, iddocument, desc6 );
 
-    executeAction( idmake, desc299, DialogModes.NO );
+    executeAction( idmake, desc5, DialogModes.NO );
 }
 
 function create_gray_document(){
@@ -53,46 +49,42 @@ function create_gray_document(){
     */
 
     var idmake = stringIDToTypeID( "make" );
-    var desc415 = new ActionDescriptor();
+    var desc5 = new ActionDescriptor();
     var idnew = stringIDToTypeID( "new" );
-    var desc416 = new ActionDescriptor();
+    var desc6 = new ActionDescriptor();
     var idartboard = stringIDToTypeID( "artboard" );
 
-    desc416.putBoolean( idartboard, false );
+    desc6.putBoolean( idartboard, false );
     var idautoPromoteBackgroundLayer = stringIDToTypeID( "autoPromoteBackgroundLayer" );
-    desc416.putBoolean( idautoPromoteBackgroundLayer, false );
+    desc6.putBoolean( idautoPromoteBackgroundLayer, false );
     var idmode = stringIDToTypeID( "mode" );
-    var idgrayscaleMode = stringIDToTypeID( "grayscaleMode" );
-    desc416.putClass( idmode, idgrayscaleMode );
+    var idRGBColorMode = stringIDToTypeID( "grayscaleMode" );
+    desc6.putClass( idmode, idRGBColorMode );
     var idwidth = stringIDToTypeID( "width" );
     var iddistanceUnit = stringIDToTypeID( "distanceUnit" );
-    desc416.putUnitDouble( idwidth, iddistanceUnit, 491.520000 );
+    desc6.putUnitDouble( idwidth, iddistanceUnit, 2048.000000 );
     var idheight = stringIDToTypeID( "height" );
     var iddistanceUnit = stringIDToTypeID( "distanceUnit" );
-    desc416.putUnitDouble( idheight, iddistanceUnit, 491.520000 );
+    desc6.putUnitDouble( idheight, iddistanceUnit, 2048.000000 );
     var idresolution = stringIDToTypeID( "resolution" );
     var iddensityUnit = stringIDToTypeID( "densityUnit" );
-    desc416.putUnitDouble( idresolution, iddensityUnit, 300.000000 );
+    desc6.putUnitDouble( idresolution, iddensityUnit, 72.000000 );
     var idpixelScaleFactor = stringIDToTypeID( "pixelScaleFactor" );
-    desc416.putDouble( idpixelScaleFactor, 1.000000 );
-    var idfill = stringIDToTypeID( "fill" );
+    desc6.putDouble( idpixelScaleFactor, 1.000000 );
     var idfill = stringIDToTypeID( "fill" );
     var idtransparency = stringIDToTypeID( "transparency" );
-    desc416.putEnumerated( idfill, idfill, idtransparency );
+    desc6.putEnumerated( idfill, idfill, idtransparency );
     var iddepth = stringIDToTypeID( "depth" );
-    desc416.putInteger( iddepth, 8 );
+    desc6.putInteger( iddepth, 8 );
     var idprofile = stringIDToTypeID( "profile" );
-    desc416.putString( idprofile, """Dot Gain 20%""" );
+    desc6.putString( idprofile, """sGray""" );
     var idguides = stringIDToTypeID( "guides" );
-    var list58 = new ActionList();
-    desc416.putList( idguides, list58 );
-
+    var list2 = new ActionList();
+    desc6.putList( idguides, list2 );
     var iddocument = stringIDToTypeID( "document" );
-    desc415.putObject( idnew, iddocument, desc416 );
-    var iddocumentID = stringIDToTypeID( "documentID" );
-    desc415.putInteger( iddocumentID, 2050 );
+    desc5.putObject( idnew, iddocument, desc6 );
 
-    executeAction( idmake, desc415, DialogModes.NO );
+    executeAction( idmake, desc5, DialogModes.NO );
 
 }
 
@@ -276,8 +268,111 @@ function close_document(){
     executeAction( idclose, desc396, DialogModes.NO );
 }
 
-function main(){
+/*
+function rename_temp_rgb(){
+    return
+}
 
+function create_new_channel(){
+    var idset = stringIDToTypeID( "set" );
+    var desc464 = new ActionDescriptor();
+    var idnull = stringIDToTypeID( "null" );
+    var ref142 = new ActionReference();
+    var idchannel = stringIDToTypeID( "channel" );
+    var idselection = stringIDToTypeID( "selection" );
+    ref142.putProperty( idchannel, idselection );
+    desc464.putReference( idnull, ref142 );
+    var idto = stringIDToTypeID( "to" );
+    var ref143 = new ActionReference();
+    var idchannel = stringIDToTypeID( "channel" );
+    var idchannel = stringIDToTypeID( "channel" );
+    var idRGB = stringIDToTypeID( "RGB" );
+    ref143.putEnumerated( idchannel, idchannel, idRGB );
+    desc464.putReference( idto, ref143 );
+    executeAction( idset, desc464, DialogModes.NO );
+
+    var idduplicate = stringIDToTypeID( "duplicate" );
+    var desc411 = new ActionDescriptor();
+    var idnull = stringIDToTypeID( "null" );
+    var ref113 = new ActionReference();
+    var idchannel = stringIDToTypeID( "channel" );
+    var idselection = stringIDToTypeID( "selection" );
+    ref113.putProperty( idchannel, idselection );
+    desc411.putReference( idnull, ref113 );
+    executeAction( idduplicate, desc411, DialogModes.NO );
+
+    var idselect = stringIDToTypeID( "select" );
+    var desc423 = new ActionDescriptor();
+    var idnull = stringIDToTypeID( "null" );
+    var ref121 = new ActionReference();
+    var idchannel = stringIDToTypeID( "channel" );
+    ref121.putName( idchannel, "Alpha 1" );
+    desc423.putReference( idnull, ref121 );
+    executeAction( idselect, desc423, DialogModes.NO );
+
+    var idset = stringIDToTypeID( "set" );
+    var desc475 = new ActionDescriptor();
+    var idnull = stringIDToTypeID( "null" );
+    var ref148 = new ActionReference();
+    var idchannel = stringIDToTypeID( "channel" );
+    var idordinal = stringIDToTypeID( "ordinal" );
+    var idtargetEnum = stringIDToTypeID( "targetEnum" );
+    ref148.putEnumerated( idchannel, idordinal, idtargetEnum );
+    desc475.putReference( idnull, ref148 );
+    var idto = stringIDToTypeID( "to" );
+    var desc476 = new ActionDescriptor();
+    var idname = stringIDToTypeID( "name" );
+    desc476.putString( idname, """Red""" );
+    var idchannel = stringIDToTypeID( "channel" );
+    desc475.putObject( idto, idchannel, desc476 );
+    executeAction( idset, desc475, DialogModes.NO );
+}
+*/
+
+function combine_painter_texture(folder_path, true_name, raw_texture_list, type){
+    /*
+    テクスチャを結合
+    */
+
+    // 作業用のドキュメントを作成
+    if (type == "Metallic"  ||
+        type == "Roughness" ||
+        type == "AO"        ||
+        type == "Opacity"){
+        create_gray_document();
+    }else{
+        create_color_document();
+    }
+
+    // テクスチャを一つづつ処理する
+    for(var i=0; i<raw_texture_list.length; i++){
+        import_texture(raw_texture_list[i]);
+
+        // 最下層のレイヤーでなければレイヤーの合成モードを変更
+        if (i != 0){
+            select_layer(raw_texture_list[i]);
+            if(type == "Nornal"){
+                set_layer_mode("overlay"); // Normalなら合成モードをOverLayに
+            }else{
+                set_layer_mode("lighten");
+            }
+        }
+    }
+    // テクスチャを書き出し
+    export_texture(folder_path, true_name, type);
+
+    close_document();
+}
+
+function conbine_ccc_texture(folder_path, true_name){
+    // create_color_document();
+    import_texture(folder_path + "/export/" + true_name + "Roughness.tga");
+
+    create_new_channel();
+}
+
+
+function main(){
     // テクスチャの格納されているフォルダを取得
     var folder_path = get_folder_path();
 
@@ -302,108 +397,32 @@ function main(){
     true_name = true_name.split("_");
     true_name = String(true_name[0]);
 
-    // 作業用のドキュメントを作成
-    create_color_document();
-    // テクスチャを一つづつ処理する
-    for(var i=0; i<basecolor_list.length; i++){
-        import_texture(basecolor_list[i]);
-
-        // 最下層のレイヤーでなければレイヤーの合成モードを変更
-        if (i != 0){
-            select_layer(basecolor_list[i]);
-            set_layer_mode("lighten");
-        }
+    // テクスチャ結合処理を開始
+    if (basecolor_list.length != 0){
+        combine_painter_texture(folder_path, true_name, basecolor_list, "BaseColor");
     }
-    // ベースカラーのテクスチャを書き出し
-    if ( basecolor_list.length != 0 ){
-        export_texture(folder_path, true_name, "BaseColor");
+    if (metallic_list.length != 0){
+        combine_painter_texture(folder_path, true_name, metallic_list, "Metallic");
     }
-    close_document();
-
-    // metallic
-    create_gray_document();
-    for(var i=0; i<metallic_list.length; i++){
-        import_texture(metallic_list[i]);
-        if (i != 0){
-            select_layer(metallic_list[i]);
-            set_layer_mode("lighten");
-        }
+    if (roughness_list.length != 0){
+        combine_painter_texture(folder_path, true_name, roughness_list, "Roughness");
     }
-    if ( metallic_list.length != 0 ){
-        export_texture(folder_path, true_name, "Metallic");
+    if (ao_list.length != 0){
+        combine_painter_texture(folder_path, true_name, ao_list, "AO");
     }
-    close_document();
-
-    // roughness
-    create_gray_document();
-    for(var i=0; i<roughness_list.length; i++){
-        import_texture(roughness_list[i]);
-        if (i != 0){
-            select_layer(roughness_list[i]);
-            set_layer_mode("lighten");
-        }
+    if (emissive_list.length != 0){
+        combine_painter_texture(folder_path, true_name, emissive_list, "Emissive");
     }
-    if ( roughness_list.length != 0 ){
-        export_texture(folder_path, true_name, "Roughness");
+    if (opacity_list.length != 0){
+        combine_painter_texture(folder_path, true_name, opacity_list, "Opacity");
     }
-    close_document();
-
-    // AO
-    create_gray_document();
-    for(var i=0; i<ao_list.length; i++){
-        import_texture(ao_list[i]);
-        if (i != 0){
-            select_layer(ao_list[i]);
-            set_layer_mode("lighten");
-        }
+    if (normal_list.length != 0){
+        combine_painter_texture(folder_path, true_name, normal_list, "Normal");
     }
-    if ( ao_list.length != 0 ){
-        export_texture(folder_path, true_name, "AO");
-    }
-    close_document();
-
-    // Emissive
-    create_color_document();
-    for(var i=0; i<emissive_list.length; i++){
-        import_texture(emissive_list[i]);
-        if (i != 0){
-            select_layer(emissive_list[i]);
-            set_layer_mode("lighten");
-        }
-    }
-    if ( emissive_list.length != 0 ){
-        export_texture(folder_path, true_name, "Emissive");
-    }
-    close_document();
-
-    // Opacity
-    create_gray_document();
-    for(var i=0; i<opacity_list.length; i++){
-        import_texture(opacity_list[i]);
-        if (i != 0){
-            select_layer(opacity_list[i]);
-            set_layer_mode("lighten");
-        }
-    }
-    if ( opacity_list.length != 0 ){
-        export_texture(folder_path, true_name, "Opacity");
-    }
-    close_document();
-
-    // Normal
-    create_color_document();
-    for(var i=0; i<normal_list.length; i++){
-        import_texture(normal_list[i]);
-        if (i != 0){
-            select_layer(normal_list[i]);
-            set_layer_mode("overlay");
-        }
-    }
-    if ( normal_list.length != 0 ){
-        export_texture(folder_path, true_name, "Opacity");
-    }
-    close_document();
 
     alert("書き出しが完了しました。");
+
+    // conbine_ccc_texture(folder_path, true_name);
+
 }
 main();
