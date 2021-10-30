@@ -50,7 +50,15 @@ class CustomMayaMenu(object):
                     image="create_project.png",
                     command='from create_project import create_project; reload(create_project); create_project.main()')
 
+        pm.menuItem(label=u'アウトライナーを着彩',
+            image="",
+            command='from outliner_coloring import outliner_coloring; reload(outliner_coloring); outliner_coloring.main()')
+
         pm.menuItem(divider=True, label=u'【造形者用】')
+
+        pm.menuItem(label=u'テクスチャセット用のマテリアルを割り当て',
+                    image="set_textureset_material.png",
+                    command='from set_textureset_material import set_textureset_material; reload(set_textureset_material); set_textureset_material.main()')
 
         pm.menuItem(label=u'FBXをエクスポート',
                     image="export_model_fbx.png",

@@ -10,6 +10,7 @@ import os
 
 import pymel.core as pm
 import maya.cmds as mc
+import maya.mel as mel
 
 from logging import getLogger
 logger_name = "__Library__"
@@ -70,6 +71,7 @@ class Node(object):
         Returns:
             list(string): 選択されているノードのリスト
         """
+
         selections = pm.ls(os=1)
         # print(selection)
         return selections
@@ -89,8 +91,25 @@ class Node(object):
     # select_node_from_name(l)
 
     @classmethod
+    def get_children_from_selections(cls, n=None, l=[], t="mesh"):
+        u"""
+        選択されたノードを親に持つ特定タイプのノードを全て取得
+        """
+
+        sl = pm.ls(selection=True) if n == None else pm.ls(n)
+        for p in sl:
+            q = p.getChildren()
+            for r in q:
+                if not r.nodeType() == t:
+                    cls.get_children_from_selections(r, l, t)
+                else:
+                    l.append(r)
+        return l
+
+    @classmethod
     def check_selected_node_is_single(cls):
-        u"""選択されているノードが一つかどうかを判定
+        u"""
+        選択されているノードが一つかどうかを判定
 
         Returns:
             bool: 1つならTrue
@@ -106,13 +125,23 @@ class Node(object):
 
     @classmethod
     def get_selected_node_num(cls):
-        """選択されたノードの数を取得
+        u"""
+        選択されたノードの数を取得
 
         Returns:
             int: 選択されたノード数
         """
+
         sel = pm.ls(sl=True)
         return len(sel)
+
+class OptimizeScene(object):
+    @classmethod
+    def delete_unused_nodes(self):
+        u"""未使用ノードを削除
+        """
+
+        mel.eval('MLdeleteUnused;')
 
 
 class Environment(object):
@@ -224,6 +253,7 @@ class Editor(object):
         Returns:
             unicode(string): ユーザーが同意したかどうかの結果を返す。返却されるのはボタンに割り振ったテキスト
         """
+
         result = pm.confirmDialog(title=title,
                                     message=message,
                                     button=[confirm, decline],
