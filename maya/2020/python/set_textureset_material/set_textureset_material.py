@@ -26,6 +26,8 @@ class SetTextureSet(object):
         """
 
         for mesh in meshes:
+            if "Shape" in mesh:
+                mesh = mesh.replace("Shape", "")
             pm.select(None)
             pbs = pm.shadingNode("StingrayPBS", asShader=True, name=mesh)
             logger.info("【Created Material】: {}".format(pbs))
@@ -58,7 +60,7 @@ class SetTextureSet(object):
         tpl.OptimizeScene.delete_unused_nodes()
 
         # 子のトランスフォームノードを全て取得
-        meshes = tpl.Node.get_children_from_selections(t="transform")
+        meshes = tpl.Node.get_children_from_selections(t="mesh")
         logger.info("【Target is】: {}".format(meshes))
 
         self.set_pbs_material(meshes)
