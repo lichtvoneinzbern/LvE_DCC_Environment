@@ -63,6 +63,24 @@ class General(object):
         return path
 
 
+class Wrapper(object):
+
+    @classmethod
+    def gather_history(cls, function):
+        """関数から実行した履歴をMaya上で一回分にまとめる
+
+        Args:
+            function (function): Wrapperで囲みたい関数
+        """
+        def wrapper(*args, **kwargs):
+            mc.undoInfo(openChunk=True)
+            logger.info("【History Chunk】: Opend")
+            function(*args, **kwargs)
+            mc.undoInfo(closeChunk=True)
+            logger.info("【History Chunk】: Closed")
+        return wrapper
+
+
 class Node(object):
     @classmethod
     def get_selection_node_name_list(cls):
@@ -103,7 +121,7 @@ class Node(object):
                 if not r.nodeType() == t:
                     cls.get_children_from_selections(r, l, t)
                 else:
-                    l.append(r)
+                    l.append(str(r))
         return l
 
     @classmethod
@@ -183,7 +201,6 @@ class Plugin(object):
 
 
 class SaveAndLoad(object):
-
     @classmethod
     def save_scene_as(cls, file_name="fn", folder_path="", file_type=0):
         u"""
