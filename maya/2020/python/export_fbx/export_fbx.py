@@ -189,7 +189,10 @@ class ExportFbx(object):
         logger.info("【Open FBX Folder】: {}".format(self.fbx_folder_path))
         return
 
+    @tpl.Wrapper.gather_history
     def execute(self, id):
+
+        pm.undoInfo(openChunk=True)
 
         # 選択されたノードは一つか
         if tpl.Node.check_selected_node_is_single() is False:
@@ -234,6 +237,11 @@ class ExportFbx(object):
             self.show_error_message(1)
 
         logger.info("【End Process】: Executed")
+
+        pm.undoInfo(closeChunk=True)
+
+        # ツール処理によるシーンの変更を取り消す
+        pm.undo()
 
 
 def main(id):
