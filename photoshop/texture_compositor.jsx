@@ -380,12 +380,12 @@ function main(){
     create_export_folder(folder_path);
 
     // フォルダパスからテクスチャを全て取得
-    var basecolor_list = get_textures(folder_path, 13, "BaseColor");
+    var basecolor_list = get_textures(folder_path, 13, "BaseColor");　// 拡張子分＋4
     var metallic_list = get_textures(folder_path, 12, "Metallic");
     var roughness_list = get_textures(folder_path, 13, "Roughness");
-    var ao_list = get_textures(folder_path, 13, "AO");
-    var emissive_list = get_textures(folder_path, 13, "Emissive");
-    var opacity_list = get_textures(folder_path, 13, "Opacity");
+    var ao_list = get_textures(folder_path, 6, "AO");
+    var emissive_list = get_textures(folder_path, 12, "Emissive");
+    var opacity_list = get_textures(folder_path, 11, "Opacity");
     var normal_list = get_textures(folder_path, 10, "Normal");
 
     // 純粋なアセットの名前を取得 ex.)2000Mill
