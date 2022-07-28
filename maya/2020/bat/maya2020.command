@@ -5,27 +5,27 @@
 # Author:Licht von Einzbern
 # =============================
 
-# Œ»Ý‚ÌƒfƒBƒŒƒNƒgƒŠ‚ðƒoƒbƒ`ƒtƒ@ƒCƒ‹‚ÌêŠ‚ÉˆÚ“®
+# ï¿½ï¿½ï¿½Ý‚Ìƒfï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½`ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌêŠï¿½ÉˆÚ“ï¿½
 cd `dirname $0`
 
-# ƒtƒ@ƒCƒ‹–¼‚ðœ‚¢‚½ƒpƒX‚ðŽæ“¾
+# ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Xï¿½ï¿½ï¿½æ“¾
 cd ..
 MAYA_VER=`pwd`
 
-# Maya‚Ìƒo[ƒWƒ‡ƒ“‚ðŽæ“¾
+# Mayaï¿½Ìƒoï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 cd ..
 MAYA_VER=${MAYA_VER#`pwd`}
 MAYA_VER=${MAYA_VER#"/"}
 
 # -------------
-# ŠÂ‹«•Ï”‚ÌÝ’è
+# ï¿½Â‹ï¿½ï¿½Ïï¿½ï¿½ÌÝ’ï¿½
 # -------------
 cd `dirname $0`
 cd ..
 INHOUSE_DIR=`pwd`
 
-# ƒvƒƒWƒFƒNƒgŠO‚Åì¬‚³‚ê‚½ƒXƒNƒŠƒvƒgEƒvƒ‰ƒOƒCƒ“‚ÌŠi”[êŠ
-# ToDo:–¢ƒfƒoƒbƒO
+# ï¿½vï¿½ï¿½ï¿½Wï¿½Fï¿½Nï¿½gï¿½Oï¿½Åì¬ï¿½ï¿½ï¿½ê‚½ï¿½Xï¿½Nï¿½ï¿½ï¿½vï¿½gï¿½Eï¿½vï¿½ï¿½ï¿½Oï¿½Cï¿½ï¿½ï¿½ÌŠiï¿½[ï¿½êŠ
+# ToDo:ï¿½ï¿½ï¿½fï¿½oï¿½bï¿½O
 # THIRD_DIR=%INHOUSE_DIR:inhouse=thirdparty%
 
 # export MAYA_UI_LANGUAGE=ja_JP
@@ -33,16 +33,16 @@ export MAYA_UI_LANGUAGE=en_US
 # export MAYA_ENABLE_LEGACY_VIEWPORT=1
 # export MAYA_MODULE_PATH=$MAYA_MODULE_PATH;$INHOUSE_DIR/modules
 # export MAYA_PLUG_IN_PATH=$MAYA_PLUG_IN_PATH;$INHOUSE_DIR/plug-ins
-# export MAYA_SCRIPT_PATH=$MAYA_SCRIPT_PATH;$INHOUSE_DIR/scripts
+export MAYA_SCRIPT_PATH=$MAYA_SCRIPT_PATH:$INHOUSE_DIR/scripts
 # export MAYA_PRESET_PATH=$MAYA_PRESET_PATH;$INHOUSE_DIR/presets
 export XBMLANGPATH=$XBMLANGPATH:$INHOUSE_DIR/icons/icon-assets
 # export MAYA_MODULE_PATH=$MAYA_MODULE_PATH;$INHOUSE_DIR/modules
 
 export PYTHONPATH=$PYTHONPATH:$INHOUSE_DIR/python
-# site-package‚ª•K—v‚Èê‡
+# site-packageï¿½ï¿½ï¿½Kï¿½vï¿½Èê‡
 # export PYTHONPATH=$PYTHONPATH:$INHOUSE_DIR/python:$INHOUSE_DIR/python/site-packages
 
 #read -p "Hit enter: "
 
-# Maya‹N“®
+# Mayaï¿½Nï¿½ï¿½
 /Applications/Autodesk/maya2020/Maya.app/Contents/bin/maya

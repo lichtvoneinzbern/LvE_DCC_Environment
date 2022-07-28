@@ -22,11 +22,54 @@ class CustomMayaMenu(object):
 
     @classmethod
     def set_items(cls):
+        cls.set_third_party()
+
         # デザイナー向け
         cls.set_tools()
 
+        # 旧デザイナー向け
+        cls.set_legacy_tools()
+
         # 開発者向け
         cls.set_developer_tools()
+
+    @classmethod
+    def set_third_party(cls):
+        """
+        サードパーティ製のツール群を追加
+        """
+
+        pm.menuItem(label=u'Third Party',
+                    subMenu=True,
+                    tearOff=True,
+                    parent=cls.menu_name
+                    )
+
+        pm.menuItem(divider=True, label=u'【造形者用】')
+
+        pm.menuItem(label=u'UVを格子状に整列させる',
+        command='mel.eval("AriUVGridding")')
+
+        pm.menuItem(label=u'UVを格子状に整列させる(オプション)',
+        command='mel.eval("AriUVGridding")')
+
+    @classmethod
+    def set_legacy_tools(cls):
+        """
+        レガシーツール群を追加
+        """
+
+        pm.menuItem(label=u'Legacy',
+                    subMenu=True,
+                    tearOff=True,
+                    parent=cls.menu_name
+                    )
+
+        pm.menuItem(divider=True, label=u'【アニメーター用】')
+
+        pm.menuItem(label=u'FBXをエクスポート',
+        image="export_animation_fbx.png",
+        command='from export_fbx import export_fbx; reload(export_fbx); export_fbx.main(1)')
 
     @classmethod
     def set_tools(cls):
@@ -66,9 +109,9 @@ class CustomMayaMenu(object):
 
         pm.menuItem(divider=True, label=u'【アニメーター用】')
 
-        pm.menuItem(label=u'FBXをエクスポート',
+        pm.menuItem(label=u'選択ノードからFBXをエクスポート',
                 image="export_animation_fbx.png",
-                command='from export_fbx import export_fbx; reload(export_fbx); export_fbx.main(1)')
+                command='from export_all_anim_fbx import export_all_anim_fbx; reload(export_all_anim_fbx); export_all_anim_fbx.main()')
 
     @classmethod
     def set_developer_tools(cls):
